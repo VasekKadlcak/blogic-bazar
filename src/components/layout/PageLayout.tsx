@@ -1,8 +1,9 @@
 "use client";
 
-import { AppShell, Container, Group } from "@mantine/core";
+import { AppShell, Button, Container, Group,  } from "@mantine/core";
 import type { PropsWithChildren } from "react";
 import { PageLogo } from "@/components/layout/PageLogo";
+
 
 const HEADER_HEIGHT = 90;
 const BODY_MAX_WIDTH = 1280;
@@ -16,6 +17,9 @@ export function PageLayout({ children }: PropsWithChildren) {
             <a href="/cs">
               <PageLogo />
             </a>
+            <Button component="a" href="#" color="#FF9000" radius="md">
+              + Přidat inzerát
+            </Button>
           </Group>
         </Container>
       </AppShell.Header>
