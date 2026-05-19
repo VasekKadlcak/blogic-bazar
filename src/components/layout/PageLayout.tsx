@@ -12,8 +12,10 @@ export function PageLayout({ children }: PropsWithChildren) {
     <AppShell header={{ height: HEADER_HEIGHT }} padding="md" withBorder={false}>
       <AppShell.Header px="md">
         <Container size={BODY_MAX_WIDTH} h="100%">
-          <Group h="100%" align="center" justify="space-between">
-            <PageLogo />
+          <Group  h="100%" align="center" justify="space-between">
+            <a href="/cs">
+              <PageLogo />
+            </a>
           </Group>
         </Container>
       </AppShell.Header>
