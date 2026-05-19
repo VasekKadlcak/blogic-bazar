@@ -19,7 +19,7 @@ const inzeraty = [
     title: "Herní notebook ASUS ROG",
     category: "Technika",
     condition: "nový",
-    price: "18 500 Kč",
+    price: "18 600 Kč",
     email: "dan@example.cz",
     description:
       "Výkonný herní notebook RTX 3070, 16 GB RAM, SSD 1 TB.",
