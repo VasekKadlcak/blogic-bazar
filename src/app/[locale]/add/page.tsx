@@ -97,7 +97,7 @@ export default function AddInzeratPage() {
                 {submittedValues.description}
               </Text>
               <Group justify="space-between">
-                <Text fw={700}>{submittedValues.price}</Text>
+                <Text fw={700}>{submittedValues.price === "0" ? "Zdarma" : `${submittedValues.price} Kč`}</Text>
                 <Text size="sm" c="dimmed">
                   {submittedValues.email}
                 </Text>
@@ -114,7 +114,7 @@ export default function AddInzeratPage() {
             <Stack gap="md">
               <TextInput
                 label="Název inzerátu"
-                placeholder="Např. iPhone 14 Pro 256GB"
+                placeholder="Např. Notebook, Smartphone, ..."
                 withAsterisk
                 {...form.getInputProps("title")}
               />
@@ -148,7 +148,9 @@ export default function AddInzeratPage() {
 
               <TextInput
                 label="Cena"
-                placeholder="Např. 5 000 Kč nebo Zdarma"
+                type="number"
+                min={0}
+                placeholder="Např. 3 000 Kč nebo 0 pro zdarma"
                 withAsterisk
                 {...form.getInputProps("price")}
               />
