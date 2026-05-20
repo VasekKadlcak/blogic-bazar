@@ -4,6 +4,7 @@ import { Badge, Button, Card, Container, Grid, Group, Stack, Text, Title } from 
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { getInzeraty } from "@/app/[locale]/add/actions";
+import StatusBadge from "@/components/StatusBadge";
 import type { Inzerat } from "@/db/schemas/inzerat.schema";
 
 export default function InzeratyPage() {
@@ -34,10 +35,12 @@ export default function InzeratyPage() {
                       {inzerat.category}
                     </Badge>
                   </Group>
-
-                  <Badge color="green" variant="light" style={{ alignSelf: "flex-start" }}>
-                    {inzerat.condition}
-                  </Badge>
+                  <Group gap="xs">
+                    <Badge color="green" variant="light" style={{ alignSelf: "flex-start" }}>
+                      {inzerat.condition}
+                    </Badge>
+                    <StatusBadge id={inzerat.id} status={inzerat.status} />
+                  </Group>
 
                   <Text size="sm" c="dimmed">
                     {inzerat.description}
@@ -53,8 +56,11 @@ export default function InzeratyPage() {
                       </Text>
                     </Group>
 
-                    <Link href={`/inzeraty/${inzerat.id}`} style={{ textDecoration: "none" }}>
-                      <Button fullWidth radius="md" color="orange">
+                    <Link
+                      href={`/inzeraty/${inzerat.id}`}
+                      style={{ textDecoration: "none", pointerEvents: inzerat.status !== "aktivní" ? "none" : "auto" }}
+                    >
+                      <Button fullWidth radius="md" color="orange" disabled={inzerat.status !== "aktivní"}>
                         Detail inzerátu
                       </Button>
                     </Link>
