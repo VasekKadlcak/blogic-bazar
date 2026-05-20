@@ -16,8 +16,7 @@ export const inzeraty: Inzerat[] = [
     condition: "nový",
     price: "18 500 Kč",
     email: "dan@example.cz",
-    description:
-      "Výkonný herní notebook RTX 3070, 16 GB RAM, SSD 1 TB.",
+    description: "Výkonný herní notebook RTX 3070, 16 GB RAM, SSD 1 TB.",
   },
   {
     id: 2,
@@ -26,8 +25,7 @@ export const inzeraty: Inzerat[] = [
     condition: "Použitý",
     price: "2 900 Kč",
     email: "jana@example.cz",
-    description:
-      "Masivní dubový stůl pro 6 osob, velmi dobrý stav.",
+    description: "Masivní dubový stůl pro 6 osob, velmi dobrý stav.",
   },
   {
     id: 3,
@@ -36,8 +34,7 @@ export const inzeraty: Inzerat[] = [
     condition: "Použitý",
     price: "Zdarma",
     email: "pavel@example.cz",
-    description:
-      "Starší kancelářská židle, plně funkční, nutný vlastní odvoz.",
+    description: "Starší kancelářská židle, plně funkční, nutný vlastní odvoz.",
   },
   {
     id: 4,
@@ -46,8 +43,7 @@ export const inzeraty: Inzerat[] = [
     condition: "Použitý",
     price: "19 900 Kč",
     email: "martin@example.cz",
-    description:
-      "Telefon bez škrábanců, baterie 95 %, originální balení.",
+    description: "Telefon bez škrábanců, baterie 95 %, originální balení.",
   },
   {
     id: 5,
@@ -56,8 +52,7 @@ export const inzeraty: Inzerat[] = [
     condition: "Použitý",
     price: "7 500 Kč",
     email: "jirka@example.cz",
-    description:
-      "Kolo velikost M, pravidelně servisované, ideální do terénu.",
+    description: "Kolo velikost M, pravidelně servisované, ideální do terénu.",
   },
   {
     id: 6,
@@ -66,7 +61,15 @@ export const inzeraty: Inzerat[] = [
     condition: "Použitý",
     price: "11 000 Kč",
     email: "zdenda@example.cz",
-    description:
-      "PlayStation 5 v perfektním stavu, přidám dvě hry zdarma.",
+    description: "PlayStation 5 v perfektním stavu, přidám dvě hry zdarma.",
+  },
+  {
+    id: 7,
+    title: "XBOX series X + 2 ovladače",
+    category: "Hry",
+    condition: "Použitý",
+    price: "13 000 Kč",
+    email: "pavlik@example.cz",
+    description: "XBOX series X v perfektním stavu, přidám dvě hry zdarma.",
   },
 ];
