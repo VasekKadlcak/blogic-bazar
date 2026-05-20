@@ -1,5 +1,6 @@
 "use server";
 
+import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { inzeratTable } from "@/db/schemas/inzerat.schema";
 
@@ -18,4 +19,8 @@ export async function createInzerat(data: InzeratFormData) {
 
 export async function getInzeraty() {
   return await db.select().from(inzeratTable);
+}
+
+export async function updateInzeratStatus(id: number, status: string) {
+  await db.update(inzeratTable).set({ status }).where(eq(inzeratTable.id, id));
 }
