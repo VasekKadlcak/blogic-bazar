@@ -46,7 +46,7 @@ export default function InzeratyPage() {
                   <div style={{ marginTop: "auto", gap: 6, display: "flex", flexDirection: "column" }}>
                     <Group justify="space-between" style={{ marginTop: "auto" }}>
                       <Text fw={700} size="lg">
-                        {inzerat.price}
+                        {inzerat.price === "0" ? "Zdarma" : `${inzerat.price} Kč`}
                       </Text>
                       <Text size="sm" c="dimmed">
                         {inzerat.email}

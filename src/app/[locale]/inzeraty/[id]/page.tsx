@@ -1,6 +1,6 @@
-import { Badge, Button, Card, Container, Group, Stack, Text, Title } from "@mantine/core";
+import { Badge, Card, Container, Group, Stack, Text, Title } from "@mantine/core";
 import { eq } from "drizzle-orm";
-import Link from "next/link";
+
 import { db } from "@/db";
 import { inzeratTable } from "@/db/schemas/inzerat.schema";
 
@@ -40,7 +40,7 @@ export default async function InzeratDetailPage({ params }: { params: Promise<{ 
 
           <Group justify="space-between">
             <Text fw={700} size="xl">
-              {inzerat.price}
+              {inzerat.price === "0" ? "Zdarma" : `${inzerat.price} Kč`}
             </Text>
             <Text c="dimmed">{inzerat.email}</Text>
           </Group>
