@@ -77,74 +77,70 @@ const inzeraty = [
 ];
 
 export default function InzeratyPage() {
+  const [inzeraty, setInzeraty] = useState<Inzerat[]>([]);
+
+  useEffect(() => {
+    getInzeraty().then(setInzeraty);
+  }, []);
+
   return (
     <Container size="xl" py="xl">
       <Stack gap="xl">
-
         <Grid>
           {inzeraty.map((inzerat) => (
-            <Grid.Col
-              key={inzerat.id}
-              span={{ base: 12, sm: 6, lg: 4 }}
-            >
+            <Grid.Col key={inzerat.id} span={{ base: 12, sm: 6, lg: 4 }}>
               <Card
                 shadow="sm"
                 padding="15px"
                 radius="25px"
                 withBorder
                 h="100%"
-                style={{
-                    display: "flex",
-                    flexDirection: "column"
-                }}
-
+                style={{ display: "flex", flexDirection: "column" }}
               >
                 <Stack gap="md" style={{ flex: 1 }}>
                   <Group justify="space-between" align="start">
-                    <Title order={4}>
-                      {inzerat.title}
-                    </Title>
-
+                    <Title order={4}>{inzerat.title}</Title>
                     <Badge style={{ marginTop: "auto" }} color="orange" variant="light">
                       {inzerat.category}
                     </Badge>
                   </Group>
 
-
-                  <Badge
-                    color="green"
-                    variant="light"
-                    style={{ alignSelf: "flex-start" }}
-                    >
-                      {inzerat.condition}
+                  <Badge color="green" variant="light" style={{ alignSelf: "flex-start" }}>
+                    {inzerat.condition}
                   </Badge>
 
-                    <Text size="sm" c="dimmed">
-                      {inzerat.description}
-                    </Text>
-                  <div style={{ marginTop: "auto", gap: 6, display: "flex", flexDirection: "column"}}>
-                    <Group justify="space-between" style={{ marginTop: "auto"}}>
-                      <Text fw={700} size="lg">
-                        {inzerat.price}
-                      </Text>
+                  <Text size="sm" c="dimmed">
+                    {inzerat.description}
+                  </Text>
 
+                  <div style={{ marginTop: "auto", gap: 6, display: "flex", flexDirection: "column" }}>
+                    <Group justify="space-between" style={{ marginTop: "auto" }}>
+                      <Text fw={700} size="lg">
+                        {inzerat.price === "0" ? "Zdarma" : `${inzerat.price} Kč`}
+                      </Text>
                       <Text size="sm" c="dimmed">
                         {inzerat.email}
                       </Text>
                     </Group>
 
-                      <Button color="orange" fullWidth radius="md">
+                    <Link href={`/inzeraty/${inzerat.id}`} style={{ textDecoration: "none" }}>
+                      <Button fullWidth radius="md" color="orange">
                         Detail inzerátu
                       </Button>
-                    </div>
+                    </Link>
+                  </div>
                 </Stack>
               </Card>
             </Grid.Col>
           ))}
         </Grid>
+
+        {inzeraty.length === 0 && (
+          <Text c="dimmed" ta="center">
+            Zatím nejsou žádné inzeráty.
+          </Text>
+        )}
       </Stack>
     </Container>
   );
 }
-
-
