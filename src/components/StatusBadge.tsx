@@ -10,7 +10,15 @@ const statusColors: Record<string, string> = {
   prodáno: "red",
 };
 
-export default function StatusBadge({ id, status }: { id: number; status: string }) {
+export default function StatusBadge({
+  id,
+  status,
+  onStatusChange,
+}: {
+  id: number;
+  status: string;
+  onStatusChange?: (status: string) => void;
+}) {
   const [current, setCurrent] = useState(status);
   const [opened, setOpened] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -23,6 +31,7 @@ export default function StatusBadge({ id, status }: { id: number; status: string
     setLoading(true);
     await updateInzeratStatus(id, value);
     setCurrent(value);
+    onStatusChange?.(value);
     setOpened(false);
     setLoading(false);
   };
