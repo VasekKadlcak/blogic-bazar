@@ -9,11 +9,15 @@ import type { Inzerat } from "@/db/schemas/inzerat.schema";
 export default function InzeratyPage() {
   const [inzeraty, setInzeraty] = useState<Inzerat[]>([]);
   const [kategorie, setKategorie] = useState<string | null>(null);
-  const [cenaRange, setCenaRange] = useState<[number, number]>([0, 100000]);
+  const [cenaRange, setCenaRange] = useState<[number, number]>([0, 0]);
   const [jenAktivni, setJenAktivni] = useState(false);
 
   useEffect(() => {
-    getInzeraty().then(setInzeraty);
+    getInzeraty().then((data) => {
+      setInzeraty(data);
+      const max = Math.max(...data.map((i) => Number(i.price) || 0), 1);
+      setCenaRange([0, max]);
+    });
   }, []);
 
   const maxCena = Math.max(...inzeraty.map((i) => Number(i.price) || 0), 100000);
@@ -21,7 +25,7 @@ export default function InzeratyPage() {
   const filtrovane = inzeraty.filter((i) => {
     const cena = Number(i.price) || 0;
     if (kategorie && i.category !== kategorie) return false;
-    if (cena < cenaRange[0] || cena > cenaRange[1]) return false;
+    if (cenaRange[1] > 0 && (cena < cenaRange[0] || cena > cenaRange[1])) return false;
     if (jenAktivni && i.status !== "aktivní") return false;
     return true;
   });
