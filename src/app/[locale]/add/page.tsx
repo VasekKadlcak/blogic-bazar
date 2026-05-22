@@ -15,6 +15,7 @@ import {
   Title,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { createInzerat } from "./actions";
 
@@ -32,6 +33,7 @@ export default function AddInzeratPage() {
   const [submitted, setSubmitted] = useState(false);
   const [submittedValues, setSubmittedValues] = useState<InzeratFormValues | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const router = useRouter();
 
   const form = useForm<InzeratFormValues>({
     initialValues: {
@@ -59,6 +61,8 @@ export default function AddInzeratPage() {
       await createInzerat(values);
       setSubmittedValues(values);
       setSubmitted(true);
+      await createInzerat(values);
+      router.push("/");
       form.reset();
     } catch (e) {
       setError("Nepodařilo se uložit inzerát. Zkuste to znovu.");
