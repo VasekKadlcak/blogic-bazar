@@ -9,7 +9,7 @@ import StatusBadge from "./StatusBadge";
 
 const conditionColors: Record<string, string> = {
   nový: "blue",
-  Použitý: "yellow",
+  Použitý: "orange",
   Poškozený: "red",
 };
 
