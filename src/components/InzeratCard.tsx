@@ -30,13 +30,8 @@ export default function InzeratCard({ inzerat, onDelete }: { inzerat: Inzerat; o
             <Badge style={{ marginTop: "auto" }} color="orange" variant="light">
               {inzerat.category}
             </Badge>
-            <ActionIcon
-              style={{ color: "white", backgroundColor: "red" }}
-              variant="subtle"
-              onClick={handleDelete}
-              aria-label="Smazat inzerát"
-            >
-              X
+            <ActionIcon color="red" variant="filled" onClick={handleDelete} aria-label="Smazat inzerát" radius="xl">
+              ✕
             </ActionIcon>
           </Group>
         </Group>
