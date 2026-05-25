@@ -61,7 +61,6 @@ export default function AddInzeratPage() {
       await createInzerat(values);
       setSubmittedValues(values);
       setSubmitted(true);
-      await createInzerat(values);
       router.push("/");
       form.reset();
     } catch (e) {
@@ -154,6 +153,7 @@ export default function AddInzeratPage() {
                 label="Cena"
                 type="number"
                 min={0}
+                max={250000}
                 placeholder="Např. 3 000 Kč nebo 0 pro zdarma"
                 withAsterisk
                 {...form.getInputProps("price")}

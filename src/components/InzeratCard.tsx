@@ -1,8 +1,9 @@
 "use client";
 
-import { Badge, Button, Card, Group, Stack, Text, Title } from "@mantine/core";
+import { ActionIcon, Badge, Button, Card, Group, Stack, Text, Title } from "@mantine/core";
 import Link from "next/link";
 import { useState } from "react";
+import { deleteInzerat } from "@/app/[locale]/add/actions";
 import type { Inzerat } from "@/db/schemas/inzerat.schema";
 import StatusBadge from "./StatusBadge";
 
@@ -12,17 +13,27 @@ const conditionColors: Record<string, string> = {
   Poškozený: "red",
 };
 
-export default function InzeratCard({ inzerat }: { inzerat: Inzerat }) {
+export default function InzeratCard({ inzerat, onDelete }: { inzerat: Inzerat; onDelete?: (id: number) => void }) {
   const [status, setStatus] = useState(inzerat.status);
+
+  const handleDelete = async () => {
+    await deleteInzerat(inzerat.id);
+    onDelete?.(inzerat.id);
+  };
 
   return (
     <Card shadow="sm" padding="15px" radius="25px" withBorder style={{ display: "flex", flexDirection: "column" }}>
       <Stack gap="md">
         <Group justify="space-between" align="start">
           <Title order={4}>{inzerat.title}</Title>
-          <Badge style={{ marginTop: "auto" }} color="orange" variant="light">
-            {inzerat.category}
-          </Badge>
+          <Group gap="xs">
+            <Badge style={{ marginTop: "auto" }} color="orange" variant="light">
+              {inzerat.category}
+            </Badge>
+            <ActionIcon color="red" variant="filled" onClick={handleDelete} aria-label="Smazat inzerát" radius="xl">
+              ✕
+            </ActionIcon>
+          </Group>
         </Group>
 
         <Group gap="xs">
