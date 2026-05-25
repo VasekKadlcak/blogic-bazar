@@ -63,7 +63,7 @@ export default function AddInzeratPage() {
       setSubmitted(true);
       router.push("/");
       form.reset();
-    } catch (e) {
+    } catch {
       setError("Nepodařilo se uložit inzerát. Zkuste to znovu.");
     } finally {
       setLoading(false);
