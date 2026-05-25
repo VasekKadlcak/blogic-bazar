@@ -24,3 +24,7 @@ export async function getInzeraty() {
 export async function updateInzeratStatus(id: number, status: string) {
   await db.update(inzeratTable).set({ status }).where(eq(inzeratTable.id, id));
 }
+
+export async function deleteInzerat(id: number) {
+  await db.delete(inzeratTable).where(eq(inzeratTable.id, id));
+}

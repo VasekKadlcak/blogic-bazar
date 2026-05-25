@@ -20,7 +20,7 @@ export default function InzeratyPage() {
     });
   }, []);
 
-  const maxCena = Math.max(...inzeraty.map((i) => Number(i.price) || 0), 100000);
+  const maxCena = Math.max(...inzeraty.map((i) => Number(i.price) || 0), 0);
 
   const filtrovane = inzeraty.filter((i) => {
     const cena = Number(i.price) || 0;
@@ -80,7 +80,10 @@ export default function InzeratyPage() {
         <Grid>
           {filtrovane.map((inzerat) => (
             <Grid.Col key={inzerat.id} span={{ base: 12, sm: 6, lg: 4 }}>
-              <InzeratCard inzerat={inzerat} />
+              <InzeratCard
+                inzerat={inzerat}
+                onDelete={(id) => setInzeraty((prev) => prev.filter((i) => i.id !== id))}
+              />
             </Grid.Col>
           ))}
         </Grid>
