@@ -1,0 +1,1 @@
+ALTER TABLE `inzerat` ADD `image` text DEFAULT '';

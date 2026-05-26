@@ -11,10 +11,14 @@ export type InzeratFormData = {
   price: string;
   email: string;
   description: string;
+  image?: string;
 };
 
 export async function createInzerat(data: InzeratFormData) {
-  await db.insert(inzeratTable).values(data);
+  await db.insert(inzeratTable).values({
+    ...data,
+    image: data.image ?? "",
+  });
 }
 
 export async function getInzeraty() {
@@ -27,4 +31,8 @@ export async function updateInzeratStatus(id: number, status: string) {
 
 export async function deleteInzerat(id: number) {
   await db.delete(inzeratTable).where(eq(inzeratTable.id, id));
+}
+
+export async function uploadInzeratImage(id: number, base64: string) {
+  await db.update(inzeratTable).set({ image: base64 }).where(eq(inzeratTable.id, id));
 }
