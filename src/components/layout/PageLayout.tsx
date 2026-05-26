@@ -13,7 +13,7 @@ export function PageLayout({ children }: PropsWithChildren) {
 
   return (
     <AppShell header={{ height: HEADER_HEIGHT }} padding="md" withBorder={false}>
-      <AppShell.Header px="md">
+      <AppShell.Header px="md" style={{ backgroundColor: "white", opacity: 0.8 }}>
         <Container size={BODY_MAX_WIDTH} h="100%">
           <Group h="100%" align="center" justify="space-between">
             <a href="/cs">
@@ -28,7 +28,7 @@ export function PageLayout({ children }: PropsWithChildren) {
                   </Button>
                 </>
               ) : (
-                <Button variant="light" color="orange" onClick={() => signIn("google")}>
+                <Button variant="light" color="orange" component="a" href="/login">
                   Přihlásit se
                 </Button>
               )}
