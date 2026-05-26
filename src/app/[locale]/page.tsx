@@ -33,7 +33,7 @@ export default function InzeratyPage() {
     <Container size="xl" py="xl">
       <Stack gap="xl">
         {/* Filtry */}
-        <Group justify="center" align="flex-end" gap="xl">
+        <Group justify="left" align="flex-end" gap="xl">
           <Select
             label="Kategorie"
             placeholder="Všechny"
