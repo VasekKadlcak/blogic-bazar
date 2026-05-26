@@ -1,6 +1,7 @@
 "use client";
 
 import { Badge, Popover, Select } from "@mantine/core";
+import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { updateInzeratStatus } from "@/app/[locale]/add/actions";
 
@@ -19,6 +20,7 @@ export default function StatusBadge({
   status: string;
   onStatusChange?: (status: string) => void;
 }) {
+  const { data: session } = useSession();
   const [current, setCurrent] = useState(status);
   const [opened, setOpened] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -37,13 +39,13 @@ export default function StatusBadge({
   };
 
   return (
-    <Popover opened={opened} onClose={() => setOpened(false)} withArrow>
+    <Popover opened={opened} onClose={() => setOpened(false)} withArrow disabled={!session}>
       <Popover.Target>
         <Badge
           color={statusColors[current] ?? "gray"}
           variant="light"
-          style={{ cursor: "pointer" }}
-          onClick={() => setOpened((o) => !o)}
+          style={{ cursor: session ? "pointer" : "default" }}
+          onClick={() => session && setOpened((o) => !o)}
         >
           {current}
         </Badge>

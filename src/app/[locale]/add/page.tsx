@@ -1,23 +1,10 @@
 "use client";
 
-import {
-  Alert,
-  Badge,
-  Button,
-  Card,
-  Container,
-  FileButton,
-  Group,
-  Select,
-  Stack,
-  Text,
-  Textarea,
-  TextInput,
-  Title,
-} from "@mantine/core";
+import { Alert, Button, Card, Container, FileButton, Select, Stack, Textarea, TextInput, Title } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
 import { createInzerat } from "./actions";
 
 type InzeratFormValues = {
@@ -31,19 +18,16 @@ type InzeratFormValues = {
 
 export default function AddInzeratPage() {
   const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-  const [submittedValues, setSubmittedValues] = useState<InzeratFormValues | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
-
   const [imageBase64, setImageBase64] = useState<string>("");
+  const router = useRouter();
+  const { data: session, status } = useSession();
 
-  const handleFile = (file: File | null) => {
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => setImageBase64(reader.result as string);
-    reader.readAsDataURL(file);
-  };
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/");
+    }
+  }, [status, router]);
 
   const form = useForm<InzeratFormValues>({
     initialValues: {
@@ -58,27 +42,42 @@ export default function AddInzeratPage() {
       title: (value) => (value.trim().length < 3 ? "Název musí mít alespoň 3 znaky" : null),
       category: (value) => (!value ? "Vyberte kategorii" : null),
       condition: (value) => (!value ? "Vyberte stav zboží" : null),
-      price: (value) => (value.trim().length === 0 ? "Zadejte cenu" : null),
+      price: (value) =>
+        value.trim().length === 0
+          ? "Zadejte cenu"
+          : Number(value) < 0
+            ? "Cena nemůže být záporná"
+            : Number(value) > 250000
+              ? "Maximální cena je 250 000 Kč"
+              : null,
       email: (value) => (/^\S+@\S+\.\S+$/.test(value) ? null : "Zadejte platný e-mail"),
       description: (value) => (value.trim().length < 10 ? "Popis musí mít alespoň 10 znaků" : null),
     },
   });
+
+  const handleFile = (file: File | null) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => setImageBase64(reader.result as string);
+    reader.readAsDataURL(file);
+  };
 
   const handleSubmit = async (values: InzeratFormValues) => {
     setLoading(true);
     setError(null);
     try {
       await createInzerat({ ...values, image: imageBase64 });
-      setSubmittedValues(values);
-      setSubmitted(true);
       router.push("/");
-      form.reset();
     } catch {
       setError("Nepodařilo se uložit inzerát. Zkuste to znovu.");
     } finally {
       setLoading(false);
     }
   };
+
+  if (status === "loading" || !session) {
+    return null;
+  }
 
   return (
     <Container size="sm" py="xl">
@@ -133,7 +132,7 @@ export default function AddInzeratPage() {
                 type="number"
                 min={0}
                 max={250000}
-                placeholder="Např. 3 000 Kč nebo 0 pro zdarma"
+                placeholder="Např. 3 000 nebo 0 pro zdarma"
                 withAsterisk
                 {...form.getInputProps("price")}
               />
@@ -153,6 +152,7 @@ export default function AddInzeratPage() {
                 autosize
                 {...form.getInputProps("description")}
               />
+
               <FileButton onChange={handleFile} accept="image/*">
                 {(props) => (
                   <Button {...props} variant="light" color="orange" fullWidth>
