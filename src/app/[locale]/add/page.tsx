@@ -6,6 +6,7 @@ import {
   Button,
   Card,
   Container,
+  FileButton,
   Group,
   Select,
   Stack,
@@ -35,6 +36,15 @@ export default function AddInzeratPage() {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
+  const [imageBase64, setImageBase64] = useState<string>("");
+
+  const handleFile = (file: File | null) => {
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => setImageBase64(reader.result as string);
+    reader.readAsDataURL(file);
+  };
+
   const form = useForm<InzeratFormValues>({
     initialValues: {
       title: "",
@@ -58,7 +68,7 @@ export default function AddInzeratPage() {
     setLoading(true);
     setError(null);
     try {
-      await createInzerat(values);
+      await createInzerat({ ...values, image: imageBase64 });
       setSubmittedValues(values);
       setSubmitted(true);
       router.push("/");
@@ -79,37 +89,6 @@ export default function AddInzeratPage() {
           <Alert color="red" title="Chyba">
             {error}
           </Alert>
-        )}
-
-        {submitted && submittedValues && (
-          <Card withBorder radius="md" padding="lg" bg="green.0">
-            <Stack gap="sm">
-              <Text fw={700} c="green.8">
-                ✓ Inzerát byl úspěšně přidán!
-              </Text>
-              <Group gap="xs">
-                <Badge color="orange" variant="light">
-                  {submittedValues.category}
-                </Badge>
-                <Badge color="green" variant="light">
-                  {submittedValues.condition}
-                </Badge>
-              </Group>
-              <Text fw={600}>{submittedValues.title}</Text>
-              <Text size="sm" c="dimmed">
-                {submittedValues.description}
-              </Text>
-              <Group justify="space-between">
-                <Text fw={700}>{submittedValues.price === "0" ? "Zdarma" : `${submittedValues.price} Kč`}</Text>
-                <Text size="sm" c="dimmed">
-                  {submittedValues.email}
-                </Text>
-              </Group>
-              <Button variant="subtle" color="green" size="xs" onClick={() => setSubmitted(false)}>
-                Přidat další inzerát
-              </Button>
-            </Stack>
-          </Card>
         )}
 
         <Card shadow="sm" padding="xl" radius="lg" withBorder>
@@ -174,6 +153,13 @@ export default function AddInzeratPage() {
                 autosize
                 {...form.getInputProps("description")}
               />
+              <FileButton onChange={handleFile} accept="image/*">
+                {(props) => (
+                  <Button {...props} variant="light" color="orange" fullWidth>
+                    {imageBase64 ? "✓ Fotka vybrána" : "Přidat fotku"}
+                  </Button>
+                )}
+              </FileButton>
 
               <Button type="submit" color="orange" radius="md" fullWidth mt="sm" loading={loading}>
                 Přidat inzerát

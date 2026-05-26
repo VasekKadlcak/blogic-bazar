@@ -9,6 +9,7 @@ export const inzeratTable = sqliteTable("inzerat", {
   email: text().notNull(),
   description: text().notNull(),
   status: text().notNull().default("aktivní"),
+  image: text().default(""),
 });
 
 export type Inzerat = typeof inzeratTable.$inferSelect;
