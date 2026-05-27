@@ -1,6 +1,7 @@
 import { Badge, Button, Card, Container, Group, Stack, Text, Title } from "@mantine/core";
 import { eq } from "drizzle-orm";
 import Link from "next/link";
+import DeleteButton from "@/components/DeleteButton";
 import InzeratImage from "@/components/InzeratImage";
 import { db } from "@/db";
 import { inzeratTable } from "@/db/schemas/inzerat.schema";
@@ -47,12 +48,14 @@ export default async function InzeratDetailPage({ params }: { params: Promise<{ 
             </Text>
             <Text c="dimmed">{inzerat.email}</Text>
           </Group>
-
-          <Link href="/" style={{ textDecoration: "none" }}>
-            <Button variant="light" color="orange">
-              ← Zpět na inzeráty
-            </Button>
-          </Link>
+          <Group justify="space-between">
+            <Link href="/" style={{ textDecoration: "none" }}>
+              <Button variant="light" color="orange">
+                ← Zpět na inzeráty
+              </Button>
+            </Link>
+            <DeleteButton id={inzerat.id} />
+          </Group>
         </Stack>
       </Card>
     </Container>
