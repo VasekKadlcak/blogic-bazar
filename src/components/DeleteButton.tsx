@@ -2,10 +2,14 @@
 
 import { Button } from "@mantine/core";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 import { deleteInzerat } from "@/app/[locale]/add/actions";
 
-export default function DeleteButton({ id }: { id: number }) {
+export default function DeleteButton({ id, ownerEmail }: { id: number; ownerEmail: string }) {
   const router = useRouter();
+  const { data: session } = useSession();
+
+  if (session?.user?.email !== ownerEmail) return null;
 
   const handleDelete = async () => {
     const confirmed = window.confirm("Opravdu chcete smazat tento inzerát?");
@@ -15,7 +19,7 @@ export default function DeleteButton({ id }: { id: number }) {
   };
 
   return (
-    <Button color="red" onClick={handleDelete}>
+    <Button color="red" size="sm" onClick={handleDelete}>
       🗑️
     </Button>
   );

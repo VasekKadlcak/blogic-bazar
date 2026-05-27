@@ -1,6 +1,6 @@
 "use client";
 
-import { ActionIcon, Badge, Button, Card, Group, Stack, Text, Title } from "@mantine/core";
+import { Badge, Button, Card, Group, Stack, Text, Title } from "@mantine/core";
 import Link from "next/link";
 import { useState } from "react";
 import { deleteInzerat } from "@/app/[locale]/add/actions";

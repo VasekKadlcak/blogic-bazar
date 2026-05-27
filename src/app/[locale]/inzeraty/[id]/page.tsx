@@ -54,7 +54,7 @@ export default async function InzeratDetailPage({ params }: { params: Promise<{ 
                 ← Zpět na inzeráty
               </Button>
             </Link>
-            <DeleteButton id={inzerat.id} />
+            <DeleteButton id={inzerat.id} ownerEmail={inzerat.email} />
           </Group>
         </Stack>
       </Card>
