@@ -48,13 +48,14 @@ export default async function InzeratDetailPage({ params }: { params: Promise<{ 
             </Text>
             <Text c="dimmed">{inzerat.email}</Text>
           </Group>
+
           <Group justify="space-between">
             <Link href="/" style={{ textDecoration: "none" }}>
               <Button variant="light" color="orange">
                 ← Zpět na inzeráty
               </Button>
             </Link>
-            <DeleteButton id={inzerat.id} />
+            <DeleteButton id={inzerat.id} ownerEmail={inzerat.email} />
           </Group>
         </Stack>
       </Card>
