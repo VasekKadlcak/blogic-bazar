@@ -23,12 +23,6 @@ export default function AddInzeratPage() {
   const router = useRouter();
   const { data: session, status } = useSession();
 
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      router.push("/");
-    }
-  }, [status, router]);
-
   const form = useForm<InzeratFormValues>({
     initialValues: {
       title: "",
@@ -54,6 +48,17 @@ export default function AddInzeratPage() {
       description: (value) => (value.trim().length < 10 ? "Popis musí mít alespoň 10 znaků" : null),
     },
   });
+
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/");
+    }
+  }, [status, router]);
+  useEffect(() => {
+    if (session?.user?.email) {
+      form.setFieldValue("email", session.user.email);
+    }
+  }, [session]);
 
   const handleFile = (file: File | null) => {
     if (!file) return;
@@ -141,6 +146,7 @@ export default function AddInzeratPage() {
                 label="Kontaktní e-mail"
                 placeholder="vas@email.cz"
                 withAsterisk
+                readOnly
                 {...form.getInputProps("email")}
               />
 
