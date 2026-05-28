@@ -10,6 +10,7 @@ import {
   Textarea,
   TextInput,
   Title,
+  FileButton,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useSession } from "next-auth/react";
@@ -39,6 +40,14 @@ export default function EditInzeratPage({ params }: { params: Promise<{ id: stri
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [imageBase64, setImageBase64] = useState<string>("");
+
+  const handleFile = (file: File | null) => {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => setImageBase64(reader.result as string);
+  reader.readAsDataURL(file);
+};
 
   const form = useForm<InzeratFormValues>({
     initialValues: {
@@ -91,7 +100,10 @@ export default function EditInzeratPage({ params }: { params: Promise<{ id: stri
     setLoading(true);
     setError(null);
     try {
-      await updateInzerat(Number(id), values);
+      await updateInzerat(Number(id), {
+        ...values,
+        ...(imageBase64 ? { image: imageBase64 } : {}),
+      });
       router.push(`/inzeraty/${id}`);
     } catch {
       setError("Nepodařilo se uložit změny.");
@@ -155,6 +167,14 @@ export default function EditInzeratPage({ params }: { params: Promise<{ id: stri
                 autosize
                 {...form.getInputProps("description")}
               />
+
+              <FileButton onChange={handleFile} accept="image/*">
+                {(props) => (
+                  <Button {...props} variant="light" color="orange" fullWidth>
+                    {imageBase64 ? "✓ Fotka vybrána" : "Změnit fotku"}
+                  </Button>
+                )}
+              </FileButton>
 
               <Button type="submit" color="orange" radius="md" fullWidth loading={loading}>
                 Uložit změny

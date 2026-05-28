@@ -42,6 +42,6 @@ export async function getInzerat(id: number) {
   return result[0] ?? null;
 }
 
-export async function updateInzerat(id: number, data: InzeratFormData) {
+export async function updateInzerat(id: number, data: Partial<InzeratFormData> & { image?: string }) {
   await db.update(inzeratTable).set(data).where(eq(inzeratTable.id, id));
 }

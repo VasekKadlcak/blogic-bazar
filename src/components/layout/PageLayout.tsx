@@ -1,6 +1,16 @@
 "use client";
-
-import { AppShell, Avatar, Button, Container, Group, Tooltip } from "@mantine/core";
+import {
+  ActionIcon,
+  AppShell,
+  Avatar,
+  Button,
+  Container,
+  Group,
+  Tooltip,
+  useComputedColorScheme,
+  useMantineColorScheme,
+} from "@mantine/core";
+import { IconSun, IconMoon } from "@tabler/icons-react";
 import { signIn, signOut, useSession } from "next-auth/react";
 import type { PropsWithChildren } from "react";
 import { PageLogo } from "@/components/layout/PageLogo";
@@ -10,16 +20,21 @@ const BODY_MAX_WIDTH = 1280;
 
 export function PageLayout({ children }: PropsWithChildren) {
   const { data: session } = useSession();
+  const { toggleColorScheme } = useMantineColorScheme();
+  const colorScheme = useComputedColorScheme("light");
 
   return (
     <AppShell header={{ height: HEADER_HEIGHT }} padding="md" withBorder={false}>
-      <AppShell.Header px="md" style={{ backgroundColor: "white", opacity: 0.8 }}>
+      <AppShell.Header px="md" style={{ border: "none", opacity: 0.85}}>
         <Container size={BODY_MAX_WIDTH} h="100%">
           <Group h="100%" align="center" justify="space-between">
             <a href="/cs">
               <PageLogo />
             </a>
             <Group gap="sm">
+              <ActionIcon variant="subtle" color="gray" onClick={toggleColorScheme} size="lg">
+                 {colorScheme === "dark" ? <IconSun size={18} /> : <IconMoon size={18} />}
+              </ActionIcon>
               {session ? (
                 <>
                   <Tooltip label={`${session.user?.name ?? ""} • ${session.user?.email ?? ""}`} withArrow>
