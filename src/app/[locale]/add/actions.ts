@@ -36,3 +36,12 @@ export async function deleteInzerat(id: number) {
 export async function uploadInzeratImage(id: number, base64: string) {
   await db.update(inzeratTable).set({ image: base64 }).where(eq(inzeratTable.id, id));
 }
+
+export async function getInzerat(id: number) {
+  const result = await db.select().from(inzeratTable).where(eq(inzeratTable.id, id));
+  return result[0] ?? null;
+}
+
+export async function updateInzerat(id: number, data: InzeratFormData) {
+  await db.update(inzeratTable).set(data).where(eq(inzeratTable.id, id));
+}

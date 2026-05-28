@@ -1,6 +1,6 @@
 "use client";
 
-import { AppShell, Avatar, Button, Container, Group } from "@mantine/core";
+import { AppShell, Avatar, Button, Container, Group, Tooltip } from "@mantine/core";
 import { signIn, signOut, useSession } from "next-auth/react";
 import type { PropsWithChildren } from "react";
 import { PageLogo } from "@/components/layout/PageLogo";
@@ -22,7 +22,9 @@ export function PageLayout({ children }: PropsWithChildren) {
             <Group gap="sm">
               {session ? (
                 <>
-                  <Avatar src={session.user?.image} size="sm" radius="xl" />
+                  <Tooltip label={`${session.user?.name ?? ""} • ${session.user?.email ?? ""}`} withArrow>
+                    <Avatar src={session.user?.image} size="sm" radius="xl" />
+                  </Tooltip>
                   <Button variant="subtle" color="gray" onClick={() => signOut()}>
                     Odhlásit se
                   </Button>
