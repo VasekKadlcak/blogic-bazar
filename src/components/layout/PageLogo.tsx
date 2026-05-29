@@ -6,14 +6,15 @@ import { useTranslations } from "next-intl";
 
 export function PageLogo() {
   const t = useTranslations();
-  const colorScheme = useComputedColorScheme("light");
+  const colorScheme = useComputedColorScheme("light", { getInitialValueInEffect: true });
 
   return (
     <Image
-  src={colorScheme === "dark" ? "/blogic-logo-dark (1).png" : "/blogic-logo.png"}
-  alt={t("common.pageLogo.ariaLabel")}
-  width={115}
-  height={46}
-/>
+      src={colorScheme === "dark" ? "/blogic-logo-dark (1).png" : "/blogic-logo.png"}
+      alt={t("common.pageLogo.ariaLabel")}
+      width={115}
+      height={46}
+      suppressHydrationWarning
+    />
   );
 }
