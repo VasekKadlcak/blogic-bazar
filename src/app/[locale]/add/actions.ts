@@ -3,6 +3,7 @@
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { inzeratTable } from "@/db/schemas/inzerat.schema";
+import { rezervaceTable } from "@/db/schemas/rezervace.schema";
 
 export type InzeratFormData = {
   title: string;
@@ -12,6 +13,14 @@ export type InzeratFormData = {
   email: string;
   description: string;
   image?: string;
+};
+
+export type RezervaceData = {
+  inzeratId: number;
+  jmeno: string;
+  email: string;
+  telefon: string;
+  zprava?: string;
 };
 
 export async function createInzerat(data: InzeratFormData) {
@@ -44,4 +53,34 @@ export async function getInzerat(id: number) {
 
 export async function updateInzerat(id: number, data: Partial<InzeratFormData> & { image?: string }) {
   await db.update(inzeratTable).set(data).where(eq(inzeratTable.id, id));
+}
+
+export async function vytvorRezervaci(data: RezervaceData) {
+  await db.insert(rezervaceTable).values({
+    inzeratId: data.inzeratId,
+    jmeno: data.jmeno,
+    email: data.email,
+    telefon: data.telefon,
+    zprava: data.zprava ?? "",
+  });
+  await db.update(inzeratTable).set({ status: "rezervováno" }).where(eq(inzeratTable.id, data.inzeratId));
+}
+
+export async function getRezervaceProEmail(ownerEmail: string) {
+  const vlastniInzeraty = await db.select().from(inzeratTable).where(eq(inzeratTable.email, ownerEmail));
+  const ids = vlastniInzeraty.map((i) => i.id);
+  if (ids.length === 0) return [];
+
+  const vsechnyRezervace = await db.select().from(rezervaceTable);
+  return vsechnyRezervace
+    .filter((r) => ids.includes(r.inzeratId))
+    .map((r) => ({
+      ...r,
+      inzerat: vlastniInzeraty.find((i) => i.id === r.inzeratId),
+    }));
+}
+
+export async function deleteRezervace(id: number, inzeratId: number) {
+  await db.delete(rezervaceTable).where(eq(rezervaceTable.id, id));
+  await db.update(inzeratTable).set({ status: "aktivní" }).where(eq(inzeratTable.id, inzeratId));
 }

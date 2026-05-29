@@ -21,7 +21,7 @@ const BODY_MAX_WIDTH = 1280;
 export function PageLayout({ children }: PropsWithChildren) {
   const { data: session } = useSession();
   const { toggleColorScheme } = useMantineColorScheme();
-  const colorScheme = useComputedColorScheme("light");
+  const colorScheme = useComputedColorScheme("light", { getInitialValueInEffect: true });
 
   return (
     <AppShell header={{ height: HEADER_HEIGHT }} padding="md" withBorder={false}>
@@ -32,6 +32,11 @@ export function PageLayout({ children }: PropsWithChildren) {
               <PageLogo />
             </a>
             <Group gap="sm">
+              {session && (
+              <Button variant="subtle" color="gray" component="a" href="/rezervace">
+                Rezervace
+              </Button>
+            )}
               <ActionIcon variant="subtle" color="gray" onClick={toggleColorScheme} size="lg">
                  {colorScheme === "dark" ? <IconSun size={18} /> : <IconMoon size={18} />}
               </ActionIcon>

@@ -37,7 +37,7 @@ export default function InzeratCard({ inzerat, onDelete }: { inzerat: Inzerat; o
           <Badge color={conditionColors[inzerat.condition] ?? "gray"} variant="light">
             {inzerat.condition}
           </Badge>
-          <StatusBadge id={inzerat.id} status={inzerat.status} onStatusChange={setStatus} />
+          <StatusBadge id={inzerat.id} status={inzerat.status} ownerEmail={inzerat.email} onStatusChange={setStatus} />
         </Group>
 
         <Text size="sm" c="dimmed">

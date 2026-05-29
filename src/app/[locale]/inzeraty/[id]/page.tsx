@@ -6,6 +6,7 @@ import DeleteButton from "@/components/DeleteButton";
 import InzeratImage from "@/components/InzeratImage";
 import { db } from "@/db";
 import { inzeratTable } from "@/db/schemas/inzerat.schema";
+import RezervaceButton from "@/components/RezervaceButton";
 
 export default async function InzeratDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -27,7 +28,7 @@ export default async function InzeratDetailPage({ params }: { params: Promise<{ 
   return (
     <Container size="md" py="xl">
       <Card shadow="sm" padding="xl" radius="lg" withBorder>
-        <Stack gap="lg">
+        <Stack>
           <Group justify="space-between">
             <Title>{inzerat.title}</Title>
             <Badge color="orange" variant="light">
@@ -49,14 +50,20 @@ export default async function InzeratDetailPage({ params }: { params: Promise<{ 
             </Text>
             <Text c="dimmed">{inzerat.email}</Text>
           </Group>
-
+          {inzerat.status === "aktivní" && (
+            <RezervaceButton inzeratId={inzerat.id} />
+          )}
+          <Link href={`/inzeraty/${id}/edit`} style={{ textDecoration: "none", display: "block", gap: "0px" }}>
+            <Button color="orange" variant="light" fullWidth>
+              Upravit inzerát
+            </Button>
+          </Link>
           <Group justify="space-between">
             <Link href="/" style={{ textDecoration: "none" }}>
               <Button variant="light" color="orange">
                 ← Zpět na inzeráty
               </Button>
             </Link>
-            <EditButton id={inzerat.id} ownerEmail={inzerat.email} />
             <DeleteButton id={inzerat.id} ownerEmail={inzerat.email} />
           </Group>
         </Stack>
